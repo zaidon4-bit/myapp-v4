@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Damru UI</title>
+  <meta name="description" content="Local Damru runtime control panel">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23151815'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial' font-size='32' font-weight='700' fill='white'%3ED%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+
+  <style>
+    .auth-overlay{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:rgba(0,0,0,.88);padding:20px}.auth-overlay.hidden{display:none}.auth-card{width:min(420px,100%);background:var(--panel,#151815);border:1px solid var(--line,#303530);border-radius:18px;padding:28px;box-sizing:border-box}.auth-form{display:grid;gap:14px}.auth-form label{font-size:13px;font-weight:700}.auth-form input{display:block;width:100%;box-sizing:border-box;margin-top:7px;padding:12px;border-radius:10px;border:1px solid var(--line,#303530);background:#0e100e;color:inherit}.auth-error{color:#ff7777;font-size:13px;min-height:18px}.auth-card .muted{opacity:.7}
+  </style>
+</head>
+<body>
+  <div id="userLoginOverlay" class="auth-overlay hidden" aria-modal="true" role="dialog">
+    <div class="auth-card">
+      <div class="eyebrow">INFINITE</div>
+      <h1>User login</h1>
+      <p class="muted">Sign in with the username and password provided by the administrator.</p>
+      <form id="userLoginForm" class="auth-form">
+        <label>Username<input id="userLoginUsername" autocomplete="username" required maxlength="120"></label>
+        <label>Password<input id="userLoginPassword" type="password" autocomplete="current-password" required></label>
+        <button class="button primary" type="submit">Sign in</button>
+        <p id="userLoginError" class="auth-error"></p>
+      </form>
+    </div>
+  </div>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true">D</div>
+        <div>
+          <div class="brand-name">Damru</div>
+          <a class="button secondary" href="/admin">Admin</a>
+          <div class="brand-subtitle">Local control</div>
+        </div>
+      </div>
+      <nav class="nav-list" id="navList"></nav>
+      <div class="sidebar-footer">
+        <div class="mini-label">Bind</div>
+        <div class="mono">127.0.0.1</div>
+      </div>
+    </aside>
+
+    <main id="main" class="main-panel">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="pageKicker">Runtime</p>
+          <h1 id="pageTitle">Dashboard</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="button secondary" id="refreshBtn" type="button">Refresh</button>
+          <button class="button secondary" id="userLogoutBtn" type="button">Log out</button>
+          <button class="button primary" id="nextActionBtn" type="button">Loading</button>
+        </div>
+      </header>
+
+      <section class="notice hidden" id="criticalNotice" aria-live="polite"></section>
+      <section class="notice experiment-notice" aria-live="polite">
+        <strong>Experimental UI.</strong> This local dashboard is still under active testing. Use the CLI for critical production runs until the UI has more soak time.
+      </section>
+      <section class="job-notice hidden" id="activeJobNotice" aria-live="polite"></section>
+      <section class="result-panel hidden" id="jobResultPanel" aria-live="polite"></section>
+
+      <section class="page active" id="page-dashboard" aria-labelledby="pageTitle">
+        <div class="dashboard-grid">
+          <article class="health-card span-2">
+            <div class="card-head compact">
+              <div>
+                <p class="eyebrow">System health</p>
+                <h2 id="healthTitle">Checking Damru</h2>
+              </div>
+              <span class="status-pill" id="healthPill">Loading</span>
+            </div>
+            <p class="muted" id="healthCopy">Damru is reading host, Docker, APK, and image status.</p>
+            <div class="progress-track"><div id="healthBar" class="progress-bar"></div></div>
+            <div class="check-grid" id="healthChecks"></div>
+          </article>
+
+          <article class="metric-card">
+            <span class="metric-label">Workers</span>
+            <strong id="metricWorkers">0</strong>
+            <span id="metricWorkersText">No workers yet</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">ADB devices</span>
+            <strong id="metricAdb">0</strong>
+            <span>Online devices</span>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Jobs</span>
+            <strong id="metricJobs">0</strong>
+            <span>Recent UI jobs</span>
+          </article>
+
+          <article class="panel span-2">
+            <div class="card-head">
+              <div>
+                <h2>Host summary</h2>
+                <p>Short environment readout. Secrets are never shown here.</p>
+              </div>
+            </div>
+            <div class="summary-grid" id="hostSummary"></div>
+          </article>
+
+          <article class="panel">
+            <div class="card-head">
+              <div>
+                <h2>Recent jobs</h2>
+                <p>Latest actions started from this UI.</p>
+              </div>
+            </div>
+            <div class="job-list" id="recentJobs"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="page" id="page-setup">
+        <div class="setup-layout">
+          <article class="setup-hero">
+            <p class="eyebrow">First run</p>
+            <h2>Make this machine ready for Damru.</h2>
+            <p id="setupIntro">The setup flow checks only what this host needs. WSL controls appear on Windows. Ubuntu gets native Linux actions.</p>
+            <div class="setup-env" id="setupEnv"></div>
+          </article>
+          <article class="panel setup-steps" id="setupSteps"></article>
+        </div>
+      </section>
+
+      <section class="page" id="page-workers">
+        <div class="table-toolbar">
+          <div>
+            <h2>Workers</h2>
+            <p>Manage Damru Redroid containers and connected ADB devices.</p>
+          </div>
+          <div class="toolbar-actions">
+            <input class="input" id="workerSearch" type="search" placeholder="Search workers">
+            <input class="input small-input" id="workerCount" type="number" min="1" max="50" value="1" aria-label="Workers to add">
+            <button class="button secondary" id="startWorkersBtn" type="button">Start all</button>
+            <button class="button primary" id="addWorkerBtn" type="button">Add workers</button>
+            <button class="button secondary" id="fixInternetAllBtn" type="button">Fix internet all</button>
+            <button class="button secondary" data-action="devices" type="button">Refresh ADB</button>
+            <button class="button danger subtle" id="stopWorkersBtn" type="button">Stop all</button>
+            <button class="button danger subtle" id="deleteWorkersBtn" type="button">Delete all</button>
+          </div>
+        </div>
+
+        <div class="panel table-panel">
+          <table class="data-table" aria-label="Damru workers">
+            <thead>
+              <tr><th>Container</th><th>State</th><th>Boot</th><th>Image</th><th>Ports</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="workersTable"></tbody>
+          </table>
+          <div class="pagination-bar" id="workersPager" aria-label="Worker pagination"></div>
+          <div class="empty-state hidden" id="workersEmpty">
+            <h3>No Damru workers found</h3>
+            <p>Add workers after setup is ready, or start an existing stopped worker from this page.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-work">
+        <div class="worker-workspace">
+          <article class="panel" id="browserTaskPanel">
+            <div class="card-head">
+              <div>
+                <h2>Browser actions</h2>
+                <p>Select a worker, open URLs in Chrome, capture screenshots, or run stealth checks.</p>
+              </div>
+            </div>
+            <div class="bulk-action-bar">
+              <button class="button dark" id="randomProfileAllBtn" type="button">Random profile all</button>
+              <button class="button dark" id="runProofAllBtn" type="button">Stealth checker all</button>
+            </div>
+            <label class="field-label" for="taskSerial">ADB serial</label>
+            <select class="input" id="taskSerial"></select>
+            <label class="field-label" for="taskUrl">URL</label>
+            <input class="input" id="taskUrl" type="url" placeholder="https://example.com">
+            <label class="field-label" for="taskProxy">Proxy, optional</label>
+            <input class="input" id="taskProxy" type="password" autocomplete="off" placeholder="socks5://user:pass@host:port" title="Proxy format: socks5://user:pass@host:port, http://user:pass@host:port, or host:port">
+            <div class="button-row compact-row browser-actions">
+              <button class="button primary" id="openUrlBtn" type="button">Open URL</button>
+              <button class="button secondary" id="fixInternetBtn" type="button">Fix internet</button>
+              <button class="button secondary" id="randomProfileBtn" type="button">Random profile</button>
+            </div>
+            <div class="button-row compact-row browser-actions lower-actions">
+              <button class="button primary" id="quickCheckBtn" type="button">Quick checker</button>
+              <button class="button secondary" id="runProofBtn" type="button">Full checker</button>
+              <button class="button secondary" id="screenshotBtn" type="button">Screenshot</button>
+            </div>
+          </article>
+
+          <article class="panel viewer-preview-panel" id="viewerPanel">
+            <div class="viewer-panel-head">
+              <div>
+                <h2>Live viewer</h2>
+                <p>One selected Android worker. Click the phone once, then type or drag.</p>
+              </div>
+              <div class="viewer-head-controls">
+                <select class="input" id="viewerSerial" aria-label="Viewer ADB serial"></select>
+                <button class="button primary" id="launchViewerBtn" type="button">Open viewer</button>
+                <button class="button secondary" id="copyNativeViewerBtn" type="button">Copy native command</button>
+              </div>
+            </div>
+            <div class="viewer-inline-controls">
+              <label class="switch-label" for="viewerControl">
+                <input id="viewerControl" type="checkbox" checked>
+                <span>Mouse and keyboard control</span>
+              </label>
+              <input class="input small-input" id="viewerMaxSize" type="number" min="320" max="2560" step="80" placeholder="Max" title="Native scrcpy max display size in pixels. Lower values can be faster.">
+              <button class="button secondary" id="viewerScreenshotBtn" type="button">Screenshot</button>
+              <button class="button secondary" id="viewerRecordBtn" type="button">Record 15s</button>
+            </div>
+            <div class="device-frame" id="viewerFrame">
+              <div class="device-topbar"><span></span><span></span><span></span></div>
+              <div class="device-body live-device-body" id="viewerBody" tabindex="0" aria-label="Live Android screen. Click here, then type to send keyboard input.">
+                <img id="viewerImage" class="viewer-image hidden" alt="Android device screen">
+                <div class="viewer-touch-marker hidden" id="viewerTouchMarker" aria-hidden="true"></div>
+                <div class="viewer-placeholder" id="viewerPlaceholder">
+                  <h3>Viewer is idle</h3>
+                  <p>Select a worker and click Open viewer.</p>
+                </div>
+              </div>
+            </div>
+            <div class="viewer-status mono" id="viewerStatus">Idle</div>
+            <div class="viewer-hint">Tip: use the text box for reliable typing. Keyboard input works after focusing the phone.</div>
+            <div class="viewer-keyboard-panel">
+              <input class="input viewer-text-input" id="viewerTextInput" type="text" autocomplete="off" placeholder="Type text to send to Android">
+              <button class="button primary" id="viewerSendTextBtn" type="button">Send text</button>
+            </div>
+            <div class="button-row viewer-nav-actions">
+              <button class="button secondary" data-viewer-key="BACK" type="button">Back</button>
+              <button class="button secondary" data-viewer-key="HOME" type="button">Home</button>
+              <button class="button secondary" data-viewer-key="APP_SWITCH" type="button">Recent</button>
+            </div>
+          </article>
+        </div>
+
+        <article class="panel gallery-panel">
+            <div class="card-head">
+              <div>
+                <h2>Gallery</h2>
+                <p>Screenshots, recordings, and proof reports created by the UI.</p>
+              </div>
+              <div class="button-row compact-actions">
+                <button class="button secondary" id="reloadCapturesBtn" type="button">Reload</button>
+                <button class="button danger subtle" id="clearCapturesBtn" type="button">Clear gallery</button>
+              </div>
+            </div>
+            <div class="gallery" id="captureGallery"></div>
+        </article>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="settings-grid">
+          <article class="panel">
+            <div class="card-head">
+              <div>
+                <h2>Config editor</h2>
+                <p>Only safe Damru config keys are editable. A backup is created before save.</p>
+              </div>
+            </div>
+            <form id="configForm" class="form-grid"></form>
+            <div class="button-row">
+              <button class="button primary" id="saveConfigBtn" type="button">Save config</button>
+              <button class="button secondary" id="reloadConfigBtn" type="button">Reload</button>
+              <button class="button secondary" id="restoreConfigBtn" type="button">Restore latest backup</button>
+            </div>
+            <p class="muted" id="configBackupStatus">No UI backups loaded yet.</p>
+          </article>
+          <article class="danger-panel" id="wslKernelPanel">
+            <h2>WSL kernel danger zone</h2>
+            <p>Changes Windows `.wslconfig`. Type yes to continue.</p>
+            <input class="input danger-input" id="wslPhrase" type="text" placeholder="yes">
+            <div class="button-row">
+              <button class="button danger" id="kernelInstallBtn" type="button">Install WSL kernel</button>
+              <button class="button secondary" data-action="wsl-kernel-status" type="button">Kernel status</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="page" id="page-logs">
+        <div class="logs-layout">
+          <article class="panel job-panel">
+            <div class="card-head">
+              <div>
+                <h2>Job history</h2>
+                <p>Every UI action runs as an allowlisted job.</p>
+              </div>
+              <button class="button danger subtle" id="clearLogsBtn" type="button">Clear logs</button>
+            </div>
+            <div class="job-list large" id="jobsList"></div>
+            <div class="pagination-bar" id="jobsPager" aria-label="Job pagination"></div>
+          </article>
+          <article class="panel log-panel">
+            <div class="card-head">
+              <div>
+                <h2>Sanitized log</h2>
+                <p id="logHint">Select a job to inspect output.</p>
+              </div>
+              <button class="button secondary" id="copyLogBtn" type="button">Copy</button>
+            </div>
+            <pre class="log-output" id="jobLog">No job selected.</pre>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+  <div class="modal-backdrop hidden" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="confirm-card">
+      <p class="eyebrow" id="confirmKicker">Confirm action</p>
+      <h2 id="confirmTitle">Run this action?</h2>
+      <p id="confirmBody">This action may change the local Damru runtime.</p>
+      <div class="button-row modal-actions">
+        <button class="button danger" id="confirmRunBtn" type="button">Run action</button>
+        <button class="button secondary" id="confirmCancelBtn" type="button">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <aside class="log-drawer hidden" id="logDrawer" aria-label="Job log drawer">
+    <div class="log-drawer-head">
+      <div>
+        <p class="eyebrow">Job log</p>
+        <h2 id="drawerLogTitle">No job selected</h2>
+      </div>
+      <button class="button secondary" id="closeLogDrawerBtn" type="button">Close</button>
+    </div>
+    <pre class="log-output drawer-output" id="drawerJobLog">No output.</pre>
+  </aside>
+  <script src="/app.js"></script>
+</body>
+</html>

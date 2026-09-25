@@ -1,0 +1,150 @@
+﻿{
+    "generated_at":  "2026-06-02T14:56:42Z",
+    "proxy_supplied":  true,
+    "targets":  [
+                    {
+                        "key":  "example",
+                        "label":  "Example.com",
+                        "url":  "https://example.com/",
+                        "ok":  true,
+                        "screenshot":  "example.png",
+                        "title":  "Example Domain",
+                        "final_url":  "https://example.com/",
+                        "signals":  {
+                                        "ua":  "Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.75 Mobile Safari/537.36",
+                                        "hardwareConcurrency":  8,
+                                        "deviceMemory":  8,
+                                        "maxTouchPoints":  5,
+                                        "timezone":  "America/New_York",
+                                        "language":  "en-US",
+                                        "viewport":  {
+                                                         "width":  384,
+                                                         "height":  727,
+                                                         "dpr":  3.5
+                                                     },
+                                        "bodyText":  "Example Domain\n\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\n\nLearn more"
+                                    },
+                        "elapsed_seconds":  6.49
+                    },
+                    {
+                        "key":  "amazon",
+                        "label":  "Amazon",
+                        "url":  "https://www.amazon.com/",
+                        "ok":  true,
+                        "screenshot":  "amazon.png",
+                        "title":  "Amazon.com. Spend less. Smile more.",
+                        "final_url":  "https://www.amazon.com/",
+                        "signals":  {
+                                        "ua":  "Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.75 Mobile Safari/537.36",
+                                        "hardwareConcurrency":  8,
+                                        "deviceMemory":  8,
+                                        "maxTouchPoints":  5,
+                                        "timezone":  "America/New_York",
+                                        "language":  "en-US",
+                                        "viewport":  {
+                                                         "width":  384,
+                                                         "height":  727,
+                                                         "dpr":  3.5
+                                                     },
+                                        "bodyText":  "Sign in ›\nyour account\n0\nEarly Prime Day\nHealth AI\nHaul\nMedical Care\nLuxury\nAmazon Basics\nLivestreams\nPrime\nGroceries\nBooks\nBest Sellers\nVideo\nPharmacy\nNew Releases\nMusic\nDeliver to 08854 - Update ⌵\nJoin Prime\nJoin Prime\nPlay\nMember-only deals drop soon\nPrime Day is June 23-26\nPlay\nTerms apply.\nSummer vacation must-haves\nShop our current obsessions\nExclusive colorway\nShop the new shade of clean\nSummer dresses under $40\nNew price drop!\n$2 flash deals\nPlay\nLimit 2 per customer\nSign in for the best experience\nSign in for the best experience\nSign in securely\nCreate an account\nCreate an account\nPrime Day Limited Time Offers\nSee all Prime Limited Time Offers\nSee Spider-Man: Brand New Day early\nGet notified\nGet notified\nComing soon: $5 large pizza\nSummer of soccer top picks\nSummer of soccer top p"
+                                    },
+                        "elapsed_seconds":  22.15
+                    },
+                    {
+                        "key":  "datadome-footlocker",
+                        "label":  "DataDome target",
+                        "url":  "https://www.footlocker.com/",
+                        "ok":  true,
+                        "screenshot":  "datadome-footlocker.png",
+                        "title":  "Sneakers, Apparel \u0026 More | Foot Locker",
+                        "final_url":  "https://www.footlocker.com/",
+                        "signals":  {
+                                        "ua":  "Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.75 Mobile Safari/537.36",
+                                        "hardwareConcurrency":  8,
+                                        "deviceMemory":  8,
+                                        "maxTouchPoints":  5,
+                                        "timezone":  "America/New_York",
+                                        "language":  "en-US",
+                                        "viewport":  {
+                                                         "width":  412,
+                                                         "height":  780,
+                                                         "dpr":  3.5
+                                                     },
+                                        "bodyText":  "SKIP TO MAIN\nFoot Locker Homepage\nMen\u0027s\nWomen\u0027s\nKids\u0027\nNew Arrivals\nReleases\nSale\nWestern Conference Champions\n\nSan Antonio Spurs\n\nShop SA Spurs\nEastern Conference Champions\n\nNew York Knicks\n\nShop NY Knicks\nTrending Kicks For Dad\nWhether he runs or is always on chill mode, find dad the perfect gift for Father\u0027s Day.\nShop Father\u0027s Day\nHoops Lives Here\nGet ready for a big night on the court like Chet Holmgren, who takes on the competition in the Nike KD 18.\nShop KD\nJordan Retro 4 \u0027Toro Bravo\u0027\nReturning for the first time since 2013, now\u0027s your chance to secure this Jordan Retro 4.\nShop Jordan Retro\nPause\nShop Nike\nNike Book 2 \u0027All American\u0027\n\nThe Nike Book 2 All American edition connects precision performance to basketball’s next generation.\n\nShop Nike\nAlways in Rotation\n\nA cultural classic th"
+                                    },
+                        "elapsed_seconds":  30.09
+                    },
+                    {
+                        "key":  "sannysoft",
+                        "label":  "Sannysoft",
+                        "url":  "https://bot.sannysoft.com/",
+                        "ok":  true,
+                        "screenshot":  "sannysoft.png",
+                        "title":  "Antibot",
+                        "final_url":  "https://bot.sannysoft.com/",
+                        "signals":  {
+                                        "ua":  "Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.75 Mobile Safari/537.36",
+                                        "hardwareConcurrency":  8,
+                                        "deviceMemory":  8,
+                                        "maxTouchPoints":  5,
+                                        "timezone":  "America/New_York",
+                                        "language":  "en-US",
+                                        "viewport":  {
+                                                         "width":  1472,
+                                                         "height":  2786,
+                                                         "dpr":  3.5
+                                                     },
+                                        "bodyText":  "Intoli.com tests + additions\nTest Name\tResult\nUser Agent\n(Old)\n\tMozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.75 Mobile Safari/537.36\nWebDriver\n(New)\n\tmissing (passed)\nWebDriver Advanced\tpassed\nChrome\n(New)\n\tpresent (passed)\nPermissions\n(New)\n\tprompt\nPlugins Length\n(Old)\n\t0\nPlugins is of type PluginArray\tfailed\nLanguages\n(Old)\n\ten-US,en\nWebGL Vendor\tGoogle Inc. (ARM)\nWebGL Renderer\tANGLE (ARM, Vulkan 1.3.0 (Mali-G715 (0x00007093)), ARM-5.0.0)\nBroken Image Dimensions\t16x16\nFingerprint Scanner tests\nPHANTOM_UA\tok\t\n{\n     \"userAgent\": \"Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.75 Mobile Safari/537.36\"\n}\n\nPHANTOM_PROPERTIES\tok\t\n{\n     \"attributesFound\": [\n          false,\n       "
+                                    },
+                        "elapsed_seconds":  12.3
+                    },
+                    {
+                        "key":  "creepjs",
+                        "label":  "CreepJS",
+                        "url":  "https://abrahamjuliot.github.io/creepjs/",
+                        "ok":  true,
+                        "screenshot":  "creepjs.png",
+                        "title":  "CreepJS",
+                        "final_url":  "https://abrahamjuliot.github.io/creepjs/",
+                        "signals":  {
+                                        "ua":  "Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.75 Mobile Safari/537.36",
+                                        "hardwareConcurrency":  8,
+                                        "deviceMemory":  8,
+                                        "maxTouchPoints":  5,
+                                        "timezone":  "America/New_York",
+                                        "language":  "en-US",
+                                        "viewport":  {
+                                                         "width":  384,
+                                                         "height":  727,
+                                                         "dpr":  3.5
+                                                     },
+                                        "bodyText":  "FP ID: [redacted-id]\nFuzzy: [redacted-id]\n753.80 ms\nWebRTC1a9345c2\nhost connection:\nblocked\nfoundation/ip:\nunsupported\nblocked\nsdp capabilities: da8da2f8\nstun connection:\nblocked\ndevices (3):\nmic, audio, webcam\n17.90ms\nTimezone2d612b4e\nEastern Daylight Time\nAmerica, New York\n-27028667038000\n240\n8.10ms\nIntl23d22f8d\nen-US\nJuly at Eastern Daylight Time\nAmerican English\n21 million\nnext year\n0 or 1\none\n9.00ms\nHeadlessa83e4225\nchromium: true\n38% like headless: 18d8ef37\n0% headless: 52defe05\n0% stealth: 0c019315\nplatform hints:\nArial\n64:45:36:45:27\n\n0.30ms\nResistanceeb6b354a\nprivacy: unknown\nsecurity: unknown\nmode: unknown\nextension: unknown\n669.60ms\nServiceWorkerGlobalScope\nWorker3c7b4feb\nlang/t"
+                                    },
+                        "elapsed_seconds":  25.0
+                    },
+                    {
+                        "key":  "fingerprint-pro",
+                        "label":  "Fingerprint Pro demo",
+                        "url":  "https://demo.fingerprint.com/playground",
+                        "ok":  true,
+                        "screenshot":  "fingerprint-pro.png",
+                        "title":  "Fingerprint Pro Playground | Test Your Browser Signals",
+                        "final_url":  "https://demo.fingerprint.com/playground",
+                        "signals":  {
+                                        "ua":  "Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.75 Mobile Safari/537.36",
+                                        "hardwareConcurrency":  8,
+                                        "deviceMemory":  8,
+                                        "maxTouchPoints":  5,
+                                        "timezone":  "Asia/Manila",
+                                        "language":  "en-PH",
+                                        "viewport":  {
+                                                         "width":  384,
+                                                         "height":  727,
+                                                         "dpr":  3.5
+                                                     },
+                                        "bodyText":  "Fingerprint Pro Playground\n\nAnalyze your browser with Fingerprint Pro and see all the available signals.\n\nAnalyze my browser again\nIDENTIFICATION\n\nYour Visitor ID is \n\n[redacted-id]\nBrowser\t\nChrome Mobile 145.0.7632\n\nOperating System\t\nAndroid 14\n\nIP Address\t\n[redacted-ip]\n\nLast Seen\tUnknown\nConfidence Score\t\n1\nSMART SIGNALS\nGeolocation\nSan Fernando, Central Luzon, Philippines\n\t\n\nIncognito Mode\t\nNot detected\n\nBot\t\nNot detected\n\nVPN\t\nNot detected\n\nBrowser Tampering\t\nNot detected\n\nDeveloper Tools\t\nNot detected\n\nVirtual Machine\t\nNot detected\n\nPrivacy Settings\t\nNot detected\n\nIP Blocklist\t\nYour IP is used by a residential proxy provider 🔄\n\nHigh-Activity Device\t\nNot detected\n\nVelocity Signals\t\n1 IP, 1 Linked ID in the past 24 hours\n\nSuspect Score\t\n6\n\nRaw Device Attributes\t\nSee the JSON bel"
+                                    },
+                        "elapsed_seconds":  23.84
+                    }
+                ]
+}

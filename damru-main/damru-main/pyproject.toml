@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "damru"
+version = "0.1.0"
+description = "Android-native stealth browser automation framework (Redroid + Playwright + CDP) — zero-JS fingerprint spoofing for web scraping, mobile QA testing, and anti-bot research."
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Damru Framework", email = "contact@damru.dev"},
+]
+keywords = [
+    "browser-automation", "android", "redroid", "stealth", "antidetect",
+    "web-scraping", "playwright", "chrome-devtools-protocol", "fingerprinting", "undetected",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Internet :: WWW/HTTP :: Browsers",
+    "License :: Other/Proprietary License",
+]
+dependencies = [
+    "playwright>=1.40,<1.60",
+    "requests>=2.28",
+    "pysocks>=1.7",
+    "websockets>=12",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-asyncio", "aiohttp", "pytest-cov"]
+
+[project.urls]
+Homepage = "https://damru.dev"
+Documentation = "https://github.com/akwin1234/damru/tree/main/docs"
+Source = "https://github.com/akwin1234/damru"
+Changelog = "https://github.com/akwin1234/damru/blob/main/CHANGELOG.md"
+Issues = "https://github.com/akwin1234/damru/issues"
+
+[project.scripts]
+damru = "damru.cli:main"
+damru-benchmark = "damru.benchmark:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["damru"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+pythonpath = ["."]
+markers = [
+    "unit: fast tests that do not require Android, Docker, browser automation, or live network access",
+    "adb: tests that require an ADB server or Android device/emulator",
+    "docker: tests that require Docker/Redroid inside Linux or WSL",
+    "network: tests that make live network requests or hit external websites",
+    "e2e: end-to-end tests that exercise full Damru sessions",
+    "gpu: tests that validate GPU/native graphics spoofing behavior",
+]

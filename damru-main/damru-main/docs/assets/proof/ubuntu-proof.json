@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-06-02T13:18:42",
+  "platform": "native Ubuntu VPS",
+  "example_title": "Example Domain",
+  "android_user_agent": true,
+  "hardwareConcurrency": 8,
+  "maxTouchPoints": 5,
+  "browser_timezone": "America/New_York",
+  "proxy_country": "US",
+  "proxy_timezone": "America/New_York",
+  "screenshots": [
+    "ubuntu-example-page.png"
+  ],
+  "video": "ubuntu-redroid-proof.mp4"
+}

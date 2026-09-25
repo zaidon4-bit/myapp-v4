@@ -1,0 +1,42 @@
+#  Damru Core Library (`damru/`)
+
+> Part of **Damru** — the open-source, Android-native stealth browser automation framework (Redroid + Playwright + CDP) for web scraping, automation testing, and anti-bot / fingerprinting research.
+
+*Core Python library for Android-native stealth browser automation.*
+
+Welcome to the heart of the Damru framework. This directory contains the main Python source code responsible for orchestrating the entire lifecycle of the spoofing process. 
+
+Our core philosophy here is **"Zero JS Injection"**. Every spoof is executed natively or at the protocol level.
+
+---
+
+## Architecture Overview
+
+The library is modular and highly specialized:
+
+*   **`async_core.py` & `core.py`**: The main entry points (Async and Sync context managers). These manage the connection flow: `ADB detection -> Rooting -> Applying OS Props -> Patching GPU -> Launching Chrome -> Attaching CDP`.
+*   **`devices.py`**: A massive built-in database of 155 real Android devices. It holds hardware specs, Chrome-visible memory/core buckets, screen resolutions, GPU renderers, OS props, and build fingerprints to keep spoofing physically coherent.
+*   **`root.py`**: Executes the **Layer 1 (OS)** and **Layer 2 (Binary)** stealth patches via ADB shell using `su`. It modifies `build.prop`, pushes custom GPU `.so` files, and manages `iptables` for WebRTC/IPv6 blocking.
+*   **`cdp.py`**: Handles the connection to the Chrome DevTools Protocol, securely forwarding ports from the Android emulator to `localhost`.
+*   **`chrome.py`**: Manages the Chrome browser lifecycle on the device. It handles clearing app data, dismissing the First Run Experience (FRE), and injecting our **Layer 4** stealth patches directly into Chrome's `Preferences` JSON file.
+*   **`proxy.py`**: Parses incoming proxy strings and uses them to dynamically map Timezones, Geolocation, and Locales so the browser's identity matches the IP's physical origin.
+*   **`pool.py`**: Connection pooling managers (`DamruPool`, `DamruPoolSync`) designed for scaling operations concurrently across multiple Docker containers.
+*   **`cli.py`**: User-facing setup, preflight, environment checks, image/APK management, image baking, WSL/internet repair, worker helper actions, profile forcing, screenshot/video capture, and optional viewer commands.
+*   **`profile_apply.py`**: Deterministic profile application helper for forcing a named device identity onto an existing rooted ADB worker.
+*   **`ui/`**: Experimental localhost dashboard static assets and allowlisted backend for setup health, workers, Work Lab, browser viewer, gallery cleanup, and logs.
+*   **`playwright_patch/`**: Contains `crPage.js` modifications that are dynamically loaded to neutralize Playwright's default behavior, preventing CDP target discovery leaks.
+
+---
+
+> **Note to Developers:** When modifying the core, remember to avoid relying on JavaScript-based evasions. Always look for OS-level or CDP-level solutions first.
+
+---
+
+## Related
+
+- [Main README](../README.md)
+- [Python API Reference](../docs/PYTHON_API.md)
+- [Native Binaries](../native/README.md)
+- [Automation Status & Roadmap](../docs/AUTOMATION_GAPS_PLAN.md)
+
+<sub>Keywords: Android browser automation · stealth automation · antidetect · web scraping · Redroid · Playwright · CDP · fingerprinting research</sub>

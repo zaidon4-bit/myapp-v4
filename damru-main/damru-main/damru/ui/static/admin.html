@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Infinite Admin</title><style>
+body{margin:0;background:#080b12;color:#eaf2ff;font-family:Inter,Arial,sans-serif}.wrap{max-width:1200px;margin:auto;padding:24px}
+.card{background:#101621;border:1px solid #223049;border-radius:16px;padding:18px;margin:14px 0}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+input,select,textarea,button{box-sizing:border-box;width:100%;padding:11px;border-radius:10px;border:1px solid #2b3b55;background:#0b111b;color:#fff}
+button{cursor:pointer;background:#1683ff;border:0}.danger{background:#d83b50}.muted{color:#8fa1ba}.hidden{display:none}.stat{font-size:28px;font-weight:700}.row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.table{overflow:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid #223049;white-space:nowrap}
+.badge{padding:4px 8px;border-radius:99px;background:#173b2c}.expired{background:#4a2028}.actions{display:flex;gap:6px}.actions button{width:auto;padding:7px 10px}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.row{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+<h1>∞ Infinite Admin</h1><p class="muted">Users, subscriptions, plans, access and activity.</p>
+<div id="login" class="card"><h2>Admin Login</h2><input id="adminpw" type="password" placeholder="Admin password"><br><br><button onclick="adminLogin()">Sign in</button><p id="loginmsg"></p></div>
+<div id="dash" class="hidden">
+<div class="grid"><div class="card"><span class="muted">Total</span><div class="stat" id="total">0</div></div><div class="card"><span class="muted">Active</span><div class="stat" id="active">0</div></div><div class="card"><span class="muted">Expired</span><div class="stat" id="expired">0</div></div><div class="card"><span class="muted">Suspended</span><div class="stat" id="suspended">0</div></div></div>
+<div class="card"><h2>Add / Reset User</h2><div class="row">
+<input id="username" placeholder="Username"><input id="password" type="password" placeholder="Password (8+ characters)">
+<select id="plan"><option>Weekly</option><option selected>Monthly</option><option>3 Months</option><option>Yearly</option><option>Custom</option></select>
+<select id="status"><option>Active</option><option>Suspended</option><option>Cancelled</option></select>
+<input id="start" type="date"><input id="expiry" type="date"><textarea id="notes" placeholder="Notes"></textarea>
+</div><br><button onclick="createUser()">Create user</button><p id="msg"></p></div>
+<div class="card"><h2>Users</h2><input id="search" placeholder="Search username..." oninput="loadUsers()"><br><br><div class="table"><table><thead><tr><th>Username</th><th>Plan</th><th>Status</th><th>Expiry</th><th>Days</th><th>Actions</th></tr></thead><tbody id="users"></tbody></table></div></div>
+<div class="card"><h2>Admin Activity</h2><div class="table"><table><tbody id="logs"></tbody></table></div></div>
+<button onclick="logout()">Logout</button>
+</div></div><script src="/static/admin.js"></script></body></html>

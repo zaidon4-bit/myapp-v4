@@ -1,0 +1,63 @@
+Damru preflight implementation plan / tracking
+===================================
+
+Status
+------
+Implemented locally. Not committed per user instruction.
+Fresh disposable WSL and reset/current Ubuntu VPS smoke loops passed on 2026-06-04.
+
+Scope
+-----
+Add a fast, read-only fleet preflight command for local hosts and large VM/VPS fleets.
+Mass orchestration / central swarm deployment is intentionally out of scope for this pass.
+
+Command
+-------
+- python -m damru check preflight
+- python -m damru check preflight --json
+- python -m damru check preflight --strict
+- python -m damru check preflight --no-adb
+- python -m damru check preflight --timeout N
+
+Hard read-only rules
+--------------------
+- No installs.
+- No modprobe.
+- No binderfs mounts.
+- No Docker image pulls.
+- No Docker container starts.
+- No docker run probes.
+- No iptables or route changes.
+- No WSL .wslconfig changes.
+- No ADB connect unless explicitly added later.
+
+Checks
+------
+1. Host/OS support: Windows+WSL, WSL Linux, native Linux/Ubuntu.
+2. Python/Damru/Playwright: Python version, Damru version, Playwright package, crPage.js patch.
+3. Linux tools: docker, adb, curl, wget, jq, iptables.
+4. Docker daemon: docker info and socket permission messaging.
+5. Docker bridge: docker network inspect bridge only; no runtime container probe.
+6. Binder/binderfs: /dev/binder*, /dev/binderfs mount/populated, kernel config flags when readable.
+7. Redroid image: docker image inspect configured image; missing image is FAIL.
+8. APK bundle: local APK readiness; optional when baked image exists.
+9. Disk space: free GB vs 20GB + NUM_DEVICES * 6GB recommended.
+10. CPU/RAM: host cores and memory vs configured workers.
+11. ADB devices: warn on physical/non-Redroid devices; strict mode converts warning to FAIL.
+12. Port availability: configured REDROID_BASE_PORT through NUM_DEVICES.
+13. Config sanity: MODE, NUM_DEVICES, REDROID_IMAGE, REDROID_BASE_PORT, WSL_DISTRO placeholders.
+14. WSL kernel status: active kernel, bundled kernel availability, kernel-config binderfs support guidance. Supported-but-unmounted WSL binderfs is a warning by default and a failure in strict mode.
+
+Output
+------
+- Human table with PASS/WARN/FAIL/SKIP.
+- Per-check fix line.
+- JSON schema for fleet automation.
+- Exit 0 for pass/warn, 1 for fail, 2 for unsupported/invalid config, 3 for internal error.
+
+Docs/tests
+----------
+- README command list and Fleet Preflight section.
+- CHANGELOG entry.
+- Unit tests for JSON shape, read-only forbidden calls, physical ADB classification, strict warning behavior, image missing failure, WSL kernel config detection, and WSL unmounted-binderfs warning behavior.
+- Add Reddit community link: https://www.reddit.com/r/Damru
